@@ -2,7 +2,7 @@
 
 Source of truth for *how* we work and *what* we build next. Product requirements stay in [`docs/prd.md`](../prd.md). This file is the living breakdown of that PRD into units small enough to follow, not a second PRD.
 
-**Status:** Unit 1.8 is done. Next is [1.9 Draw totals](#19-draw-totals-next-ready) — explain and wait.
+**Status:** Unit 1.9 is done. Next is [1.10 Machines by kind](#110-machines-by-kind-next-ready) — explain and wait.
 
 ---
 
@@ -33,7 +33,7 @@ If a future request conflicts with this agreement, follow this file and say so.
 | next | The unit to start when we say “go.” |
 | done | Shipped and verified. |
 
-**Current next unit:** [1.9 Draw totals](#19-draw-totals-next-ready) — waiting for agreement, not started.
+**Current next unit:** [1.10 Machines by kind](#110-machines-by-kind-next-ready) — waiting for agreement, not started.
 
 ---
 
@@ -55,7 +55,7 @@ If a future request conflicts with this agreement, follow this file and say so.
 
 ## Where we are
 
-Living product is `app/`: hardcoded red science 1/s draws a nested recipe tree. Totals and machine-kind strip are still empty. `prototypes/` stays isolated.
+Living product is `app/`: hardcoded red science 1/s shows a nested tree and a flat totals list. Machine-kind strip is still empty. `prototypes/` stays isolated.
 
 That nested recipe is the thing the PRD says will not survive oil, solid fuel, or planets. Catalog work that adds more items in the old shape is borrowing time.
 
@@ -169,13 +169,19 @@ Hardcoded red 1/s, AM2 + steel. Nested `<ul>` of name + rate in `#tree`. Gear li
 
 ---
 
-#### 1.9 Draw totals — **next, ready** (waiting for agreement)
+#### 1.9 Draw totals — **done**
 
-The other column: factory-wide rates from `result.order` + `result.totals` (not the tree).
+Flat `#totals` list from `order` + `totals`. Iron plate appears once at 2/s. Same first-seen order as the rollup.
 
-**This unit (~20 lines):** `#totals` on the Totals panel. One `<li>` per item in `order`, name + total rate. Same hardcoded `calculate()` call. No grouping by category, no machine counts, no CSS.
+---
 
-**Not this unit:** machine-kind strip (separate UI), craft menu, styling.
+#### 1.10 Machines by kind — **next, ready** (waiting for agreement)
+
+The Machines strip: total buildings **per machine kind** (all assemblers, all furnaces), not per item.
+
+**This unit (~40 lines):** `calculate()` also returns `byKind` — Map of `assembler` / `furnace` → summed count from `machines` (skip `null`). `#summary` under Machines: one line per kind. Test: red 1/s steel → furnaces = copper plates + iron plates. No CSS, no per-item machine column.
+
+**Not this unit:** craft menu, rate field, styling, grouping totals by category.
 
 ---
 
@@ -361,4 +367,5 @@ Stay static HTML/CSS/JS, no bundler, until something in Track A actually needs a
 | 2026-09-08 | 1.5 done: rollupRates by item. |
 | 2026-09-09 | 1.6 done: furnace speeds; 2 plate/s → 3.2 steel furnaces. |
 | 2026-09-09 | 1.7 done: calculate() wires machines from totals. |
-| 2026-09-09 | 1.8 done: nested tree on the page (red 1/s). Next: 1.9 totals column (waiting). |
+| 2026-09-09 | 1.8 done: nested tree on the page (red 1/s). |
+| 2026-09-09 | 1.9 done: flat totals list. Next: 1.10 machines by kind (waiting). |
