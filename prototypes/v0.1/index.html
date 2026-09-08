@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Factorio Calc v0.1</title>
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <div class="shell">
+      <aside class="setup-pane">
+        <h1>Setup</h1>
+
+        <section class="setup-group">
+          <h2>Assembler</h2>
+          <div class="icon-toggles">
+            <button type="button" data-assembler="1" title="Assembling machine 1 (speed 0.5)">
+              <img src="icons/assembling-machine-1.png" alt="Assembling machine 1" />
+              <span>0.5</span>
+            </button>
+            <button type="button" data-assembler="2" title="Assembling machine 2 (speed 0.75)">
+              <img src="icons/assembling-machine-2.png" alt="Assembling machine 2" />
+              <span>0.75</span>
+            </button>
+            <button type="button" data-assembler="3" title="Assembling machine 3 (speed 1.25)">
+              <img src="icons/assembling-machine-3.png" alt="Assembling machine 3" />
+              <span>1.25</span>
+            </button>
+          </div>
+        </section>
+
+        <section class="setup-group">
+          <h2>Furnace</h2>
+          <div class="icon-toggles">
+            <button type="button" data-furnace="stone" title="Stone furnace (speed 1.0)">
+              <img src="icons/stone-furnace.png" alt="Stone furnace" />
+              <span>1.0</span>
+            </button>
+            <button type="button" data-furnace="steel" title="Steel furnace (speed 2.0)">
+              <img src="icons/steel-furnace.png" alt="Steel furnace" />
+              <span>2.0</span>
+            </button>
+            <button type="button" data-furnace="electric" title="Electric furnace (speed 2.0)">
+              <img src="icons/electric-furnace.png" alt="Electric furnace" />
+              <span>2.0</span>
+            </button>
+          </div>
+        </section>
+      </aside>
+
+      <div class="workspace">
+        <header class="header">
+          <div class="brand">
+            <h1>Factorio <span>Calc</span></h1>
+            <p>Nauvis prototype v0.1 — red, green, black, blue, purple, and yellow science.</p>
+          </div>
+        </header>
+
+        <section class="controls">
+          <div class="field product-field">
+            <label>Product</label>
+            <button type="button" id="product-slot" class="product-slot" aria-haspopup="dialog" aria-expanded="false">
+              <span class="slot" id="product-slot-icon"></span>
+              <span class="product-meta">
+                <span class="product-name" id="product-slot-name"></span>
+                <span class="product-hint">Open crafting menu</span>
+              </span>
+            </button>
+            <div id="craft-menu" class="craft-menu" hidden>
+              <div class="craft-toolbar">
+                <div class="craft-tabs" id="craft-tabs"></div>
+                <input id="craft-search" type="search" placeholder="Search" autocomplete="off" />
+              </div>
+              <div class="craft-grid" id="craft-grid"></div>
+              <div class="craft-tip" id="craft-tip"></div>
+            </div>
+          </div>
+
+          <div class="field">
+            <label for="rate">Target rate</label>
+            <div class="rate-row">
+              <input id="rate" type="text" inputmode="decimal" autocomplete="off" spellcheck="false" value="1" />
+              <div class="unit-toggle">
+                <button type="button" data-unit="s" class="active">/s</button>
+                <button type="button" data-unit="min">/min</button>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <section class="machine-summary">
+          <h2>Machines</h2>
+          <div class="panel-body" id="summary"></div>
+        </section>
+
+        <main class="columns">
+          <section class="panel">
+            <h2>
+              <span>Recipe tree</span>
+              <span class="panel-tools">
+                <button type="button" id="expand-all">Expand all</button>
+                <button type="button" id="collapse-all">Collapse all</button>
+              </span>
+            </h2>
+            <div class="panel-body" id="tree"></div>
+          </section>
+          <section class="panel">
+            <h2>Totals by item</h2>
+            <div class="panel-body" id="totals"></div>
+          </section>
+        </main>
+      </div>
+    </div>
+
+    <script src="recipes.js"></script>
+    <script src="calc.js"></script>
+    <script src="app.js"></script>
+  </body>
+</html>

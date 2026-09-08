@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Factorio Calc</title>
+  </head>
+  <body>
+    <div class="shell">
+      <aside class="setup-pane">
+        <h1>Setup</h1>
+        <section class="setup-group">
+          <h2>Assembler</h2>
+        </section>
+        <section class="setup-group">
+          <h2>Furnace</h2>
+        </section>
+      </aside>
+
+      <div class="workspace">
+        <header class="header">
+          <div class="brand">
+            <h1>Factorio <span>Calc</span></h1>
+            <p id="module-status">waiting for ui.js…</p>
+          </div>
+        </header>
+
+        <section class="controls">
+          <div class="field">
+            <label>Product</label>
+          </div>
+          <div class="field">
+            <label>Target rate</label>
+          </div>
+        </section>
+
+        <section class="machine-summary">
+          <h2>Machines</h2>
+        </section>
+
+        <main class="columns">
+          <section class="panel">
+            <h2>Recipe tree</h2>
+          </section>
+          <section class="panel">
+            <h2>Totals by item</h2>
+          </section>
+        </main>
+      </div>
+    </div>
+
+    <script type="module" src="src/ui.js"></script>
+  </body>
+</html>
