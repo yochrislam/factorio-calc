@@ -5,3 +5,4 @@ set -euo pipefail
 ROOT="$(cd "$(dirname "$0")/.." && pwd)"
 node "$ROOT/tests/calc-ratios.mjs"
 node "$ROOT/tests/calc-tree.mjs"
+node "$ROOT/tests/calc-rollup.mjs"

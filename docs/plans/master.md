@@ -2,7 +2,7 @@
 
 Source of truth for *how* we work and *what* we build next. Product requirements stay in [`docs/prd.md`](../prd.md). This file is the living breakdown of that PRD into units small enough to follow, not a second PRD.
 
-**Status:** Unit 1.4 is done. Next is [1.5 Totals rollup](#15-totals-rollup-next-ready) — explain and wait.
+**Status:** Unit 1.5 is done. Next is [1.6 Machines from totals](#16-machines-from-totals-next-ready) — explain and wait.
 
 ---
 
@@ -33,7 +33,7 @@ If a future request conflicts with this agreement, follow this file and say so.
 | next | The unit to start when we say “go.” |
 | done | Shipped and verified. |
 
-**Current next unit:** [1.5 Totals rollup](#15-totals-rollup-next-ready) — waiting for agreement, not started.
+**Current next unit:** [1.6 Machines from totals](#16-machines-from-totals-next-ready) — waiting for agreement, not started.
 
 ---
 
@@ -55,7 +55,7 @@ If a future request conflicts with this agreement, follow this file and say so.
 
 ## Where we are
 
-Living product is `app/`: empty UI, assembler counts for yellow/purple, and a red-science ingredient tree. `prototypes/` stays isolated.
+Living product is `app/`: empty UI, assembler counts for yellow/purple, a red-science tree, and a rate rollup by item. `prototypes/` stays isolated.
 
 That nested recipe is the thing the PRD says will not survive oil, solid fuel, or planets. Catalog work that adds more items in the old shape is borrowing time.
 
@@ -145,13 +145,19 @@ UI still does not call calc. No ingredient tree yet.
 
 ---
 
-#### 1.5 Totals rollup — **next, ready** (waiting for agreement)
+#### 1.5 Totals rollup — **done**
 
-Walk the tree and **sum rates by item** (`Map` of id → total rate, plus a stable order). The tree is local; totals are factory-wide. Iron plate can appear once in this chain; later graphs will have the same item on several branches.
+`rollupRates` walks the tree, sums `rate` by item id, and records first-seen order. Red science at 1/s: iron plate total = 2. A handmade two-branch tree in the test (1 + 3 plates) checks that duplicates add to 4.
 
-**This unit:** `rollupRates(tree)` in `calc.js` + a test on the red tree (iron plate total = 2/s at 1 red/s). No UI, no machine strip.
+---
 
-**Not this unit:** `calculate()` wrapper, drawing totals, CSS.
+#### 1.6 Machines from totals — **next, ready** (waiting for agreement)
+
+The tree’s machine count is per line. The product’s machine answer uses the **rolled-up** rate: all iron plate in the factory, then `machinesNeeded`. Iron plate is a furnace recipe; `MACHINES` only has assemblers today.
+
+**This unit (~40 lines):** add furnace speeds (stone 1 / steel 2 / electric 2) to `data.js`. A test: 1 red/s, steel furnace → iron plate 2/s → **3.2** furnaces (`2 / (1 × 2 / 3.2)`). No UI, no `calculate()` wrapper, no machine-type strip.
+
+**Not this unit:** drawing the tree, CSS, icons, grouping assemblers vs furnaces.
 
 ---
 
@@ -333,4 +339,5 @@ Stay static HTML/CSS/JS, no bundler, until something in Track A actually needs a
 | 2026-09-08 | 1.2 done. App shell only. Root `"type": "module"` would break tests; scoped it to `app/package.json`. |
 | 2026-09-08 | 1.2b GitHub Pages: workflow publishes `app/` only. Prototypes isolated. |
 | 2026-09-08 | 1.3 done from scratch: throughput / machinesNeeded + two packs. |
-| 2026-09-08 | 1.4 done: buildTree + red science chain. Next: 1.5 rollup (waiting). |
+| 2026-09-08 | 1.4 done: buildTree + red science chain. |
+| 2026-09-08 | 1.5 done: rollupRates by item. Next: 1.6 machines from totals (waiting). |

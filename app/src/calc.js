@@ -60,3 +60,20 @@ export function buildTree(itemId, rate) {
   }
   return node;
 }
+
+/**
+ * Factory-wide rates: walk the tree and add each node's rate into a Map
+ * keyed by item id. The tree is per-line; this is the sum if the same
+ * item appears on several branches.
+ *
+ * `order` is first-seen (depth-first), so the UI can list items without
+ * sorting a Map.
+ */
+export function rollupRates(node, totals = new Map(), order = []) {
+  if (!totals.has(node.id)) order.push(node.id);
+  totals.set(node.id, (totals.get(node.id) || 0) + node.rate);
+  for (const child of node.children) {
+    rollupRates(child, totals, order);
+  }
+  return { totals, order };
+}
