@@ -2,7 +2,7 @@
 
 Source of truth for *how* we work and *what* we build next. Product requirements stay in [`docs/prd.md`](../prd.md). This file is the living breakdown of that PRD into units small enough to follow, not a second PRD.
 
-**Status:** Unit 1.5 is done. Next is [1.6 Machines from totals](#16-machines-from-totals-next-ready) — explain and wait.
+**Status:** Unit 1.6 is done. Next is [1.7 calculate()](#17-calculate-next-ready) — explain and wait.
 
 ---
 
@@ -33,7 +33,7 @@ If a future request conflicts with this agreement, follow this file and say so.
 | next | The unit to start when we say “go.” |
 | done | Shipped and verified. |
 
-**Current next unit:** [1.6 Machines from totals](#16-machines-from-totals-next-ready) — waiting for agreement, not started.
+**Current next unit:** [1.7 calculate()](#17-calculate-next-ready) — waiting for agreement, not started.
 
 ---
 
@@ -55,7 +55,7 @@ If a future request conflicts with this agreement, follow this file and say so.
 
 ## Where we are
 
-Living product is `app/`: empty UI, assembler counts for yellow/purple, a red-science tree, and a rate rollup by item. `prototypes/` stays isolated.
+Living product is `app/`: empty UI plus a calc that can tree, roll up, and count machines for red science (including furnaces). `prototypes/` stays isolated.
 
 That nested recipe is the thing the PRD says will not survive oil, solid fuel, or planets. Catalog work that adds more items in the old shape is borrowing time.
 
@@ -151,13 +151,19 @@ UI still does not call calc. No ingredient tree yet.
 
 ---
 
-#### 1.6 Machines from totals — **next, ready** (waiting for agreement)
+#### 1.6 Machines from totals — **done**
 
-The tree’s machine count is per line. The product’s machine answer uses the **rolled-up** rate: all iron plate in the factory, then `machinesNeeded`. Iron plate is a furnace recipe; `MACHINES` only has assemblers today.
+Furnace speeds in `MACHINES` (stone 1, steel/electric 2). `getMachineSpeed` reads `settings.furnace`. 1 red/s → 2 plate/s → **3.2** steel furnaces. Ore has no recipe, so `machinesNeeded` is `null`.
 
-**This unit (~40 lines):** add furnace speeds (stone 1 / steel 2 / electric 2) to `data.js`. A test: 1 red/s, steel furnace → iron plate 2/s → **3.2** furnaces (`2 / (1 × 2 / 3.2)`). No UI, no `calculate()` wrapper, no machine-type strip.
+---
 
-**Not this unit:** drawing the tree, CSS, icons, grouping assemblers vs furnaces.
+#### 1.7 `calculate()` — **next, ready** (waiting for agreement)
+
+The UI should call one function, not `buildTree` then `rollupRates` then loop `machinesNeeded`.
+
+**This unit (~25 lines):** `calculate(itemId, ratePerSec, settings)` returns `{ tree, totals, order, machines }` where `machines` is a Map of item id → count (or `null` for ore). One test: red 1/s, steel furnace, iron plate machines still 3.2. No UI.
+
+**Not this unit:** drawing the tree, CSS, product picker.
 
 ---
 
@@ -340,4 +346,5 @@ Stay static HTML/CSS/JS, no bundler, until something in Track A actually needs a
 | 2026-09-08 | 1.2b GitHub Pages: workflow publishes `app/` only. Prototypes isolated. |
 | 2026-09-08 | 1.3 done from scratch: throughput / machinesNeeded + two packs. |
 | 2026-09-08 | 1.4 done: buildTree + red science chain. |
-| 2026-09-08 | 1.5 done: rollupRates by item. Next: 1.6 machines from totals (waiting). |
+| 2026-09-08 | 1.5 done: rollupRates by item. |
+| 2026-09-09 | 1.6 done: furnace speeds; 2 plate/s → 3.2 steel furnaces. Next: 1.7 calculate() (waiting). |

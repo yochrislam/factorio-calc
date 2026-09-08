@@ -1,13 +1,14 @@
 import { ITEMS, MACHINES } from "./data.js";
 
 /**
- * Crafting speed of one machine of this kind, given Setup (assembler tier).
- * AM1 = 0.5, AM2 = 0.75, AM3 = 1.25.
+ * Crafting speed of one machine of this kind, given Setup.
+ * AM1/2/3 = 0.5 / 0.75 / 1.25. Stone furnace = 1, steel/electric = 2.
  */
 export function getMachineSpeed(machineKind, settings) {
   const spec = MACHINES[machineKind];
   if (!spec) return 1;
   if (machineKind === "assembler") return spec.speeds[settings.assembler];
+  if (machineKind === "furnace") return spec.speeds[settings.furnace];
   return spec.speeds.default ?? 1;
 }
 

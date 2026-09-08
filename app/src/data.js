@@ -8,6 +8,9 @@ export const MACHINES = {
   assembler: {
     speeds: { 1: 0.5, 2: 0.75, 3: 1.25 },
   },
+  furnace: {
+    speeds: { stone: 1, steel: 2, electric: 2 },
+  },
 };
 
 export const ITEMS = {
