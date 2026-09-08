@@ -1,5 +1,6 @@
 import { ITEMS } from "./data.js";
 import { calculate } from "./calc.js";
+import { formatRate } from "./format.js";
 
 const status = document.getElementById("module-status");
 if (status) status.textContent = "app module loaded";
@@ -16,7 +17,7 @@ function renderNode(node) {
     node.children.length === 0
       ? ""
       : `<ul>${node.children.map(renderNode).join("")}</ul>`;
-  return `<li>${itemName(node.id)} ${node.rate}/s${kids}</li>`;
+  return `<li>${itemName(node.id)} ${formatRate(node.rate)}/s${kids}</li>`;
 }
 
 const treeRoot = document.getElementById("tree");
@@ -27,7 +28,7 @@ if (treeRoot) {
 const totalsRoot = document.getElementById("totals");
 if (totalsRoot) {
   const rows = result.order
-    .map((id) => `<li>${itemName(id)} ${result.totals.get(id)}/s</li>`)
+    .map((id) => `<li>${itemName(id)} ${formatRate(result.totals.get(id))}/s</li>`)
     .join("");
   totalsRoot.innerHTML = `<ul>${rows}</ul>`;
 }
@@ -35,7 +36,7 @@ if (totalsRoot) {
 const summaryRoot = document.getElementById("summary");
 if (summaryRoot) {
   const rows = [...result.byKind.entries()]
-    .map(([kind, count]) => `<li>${kind} ${count}</li>`)
+    .map(([kind, count]) => `<li>${kind} ${formatRate(count)}</li>`)
     .join("");
   summaryRoot.innerHTML = `<ul>${rows}</ul>`;
 }
