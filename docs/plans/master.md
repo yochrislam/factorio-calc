@@ -2,7 +2,7 @@
 
 Source of truth for *how* we work and *what* we build next. Product requirements stay in [`docs/prd.md`](../prd.md). This file is the living breakdown of that PRD into units small enough to follow, not a second PRD.
 
-**Status:** Unit 1.2 is done. Next is [1.3 Calc module](#13-calc-module-next-ready) — explain and wait.
+**Status:** Unit 1.3 is done. Next is [1.4 Recipe tree](#14-recipe-tree-next-ready) — explain and wait.
 
 ---
 
@@ -33,7 +33,7 @@ If a future request conflicts with this agreement, follow this file and say so.
 | next | The unit to start when we say “go.” |
 | done | Shipped and verified. |
 
-**Current next unit:** [1.3 Calc module](#13-calc-module-next-ready) — waiting for agreement, not started.
+**Current next unit:** [1.4 Recipe tree](#14-recipe-tree-next-ready) — waiting for agreement, not started.
 
 ---
 
@@ -55,7 +55,7 @@ If a future request conflicts with this agreement, follow this file and say so.
 
 ## Where we are
 
-Living product shell is `app/` (empty layout, no calc yet). Spike remains `prototypes/v0.1`. Golden ratios still load the prototype.
+Living product is `app/`: empty UI plus a from-scratch calc that can count assemblers for two science packs. `prototypes/` is isolated (not imported by `app/` or Pages).
 
 That nested recipe is the thing the PRD says will not survive oil, solid fuel, or planets. Catalog work that adds more items in the old shape is borrowing time.
 
@@ -126,17 +126,26 @@ Repo Settings → Pages → Source must be **GitHub Actions** (not “Deploy fro
 
 ---
 
-#### 1.3 Calc module — **next, ready** (waiting for agreement)
+#### 1.3 Calc module — **done**
 
-Port the engine only, still no UI wiring and no full catalog.
+Built from scratch in `app/` (not copied from the prototype). ~115 lines.
 
-**This unit (~120 lines):** copy `prototypes/v0.1/calc.js` into `app/src/calc.js` as ES modules: `import { ITEMS, MACHINES } from "./data.js"` and `export` the functions. Add `app/src/data.js` with **only** `MACHINES` plus the two items the golden test needs (`utility-science-pack`, `production-science-pack`). Tests stay on the prototype.
+- `app/src/data.js` — assembler speeds + yellow/purple pack recipes (time, output, machine).
+- `app/src/calc.js` — `getMachineSpeed`, `machineThroughput`, `machinesNeeded`.
+- `tests/calc-ratios.mjs` — same 21 / 42 checks against **app** calc.
+- `scripts/test.sh` — runs that file. Spike harness remains `tests/golden-ratios.js` if you want it.
 
-**Done when:** `app/src/calc.js` can be imported by Node (`node -e "import('./app/src/calc.js')"`). `scripts/test.sh` still passes against v0.1. UI still does not call calc.
+UI still does not call calc. No ingredient tree yet.
 
-**Not this unit:** rest of the catalog, CSS, icons, wiring `ui.js` to `calculate()`, retargeting golden tests.
+---
 
-**Verify:** the Node import does not throw; golden tests unchanged.
+#### 1.4 Recipe tree — **next, ready** (waiting for agreement)
+
+From scratch in `calc.js`: given an item and a rate, walk ingredients and build a nested `{ id, rate, children }` tree. That requires adding `ingredients` on the two packs **and** the items they list — which pulls a large graph if we use real yellow science.
+
+**This unit stays small:** pick **one short chain** authored in `data.js` (e.g. iron plate ← iron ore, or red science ← gear + plate) and implement `buildTree` only. No totals rollup, no UI.
+
+**Not this unit:** copying `recipes.js`, oil, CSS, wiring the tree into HTML.
 
 ---
 
@@ -317,3 +326,4 @@ Stay static HTML/CSS/JS, no bundler, until something in Track A actually needs a
 | 2026-09-08 | 1.1 done. Ratios are exact 21 and 42. |
 | 2026-09-08 | 1.2 done. App shell only. Root `"type": "module"` would break tests; scoped it to `app/package.json`. |
 | 2026-09-08 | 1.2b GitHub Pages: workflow publishes `app/` only. Prototypes isolated. |
+| 2026-09-08 | 1.3 done from scratch: throughput / machinesNeeded + two packs. App tests 21 and 42. Next: 1.4 tree (waiting). |
