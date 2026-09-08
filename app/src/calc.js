@@ -78,3 +78,17 @@ export function rollupRates(node, totals = new Map(), order = []) {
   }
   return { totals, order };
 }
+
+/**
+ * One call for the UI: tree (per line), totals (summed by item),
+ * and machines from those totals (not from a single tree node).
+ */
+export function calculate(itemId, ratePerSec, settings) {
+  const tree = buildTree(itemId, ratePerSec);
+  const { totals, order } = rollupRates(tree);
+  const machines = new Map();
+  for (const id of order) {
+    machines.set(id, machinesNeeded(id, totals.get(id), settings));
+  }
+  return { tree, totals, order, machines };
+}
