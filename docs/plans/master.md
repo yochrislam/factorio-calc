@@ -2,7 +2,7 @@
 
 Source of truth for *how* we work and *what* we build next. Product requirements stay in [`docs/prd.md`](../prd.md). This file is the living breakdown of that PRD into units small enough to follow, not a second PRD.
 
-**Status:** Unit 1.9 is done. Next is [1.10 Machines by kind](#110-machines-by-kind-next-ready) — explain and wait.
+**Status:** Unit 1.10 is done. Next is [1.11 Format rates](#111-format-rates-next-ready) — explain and wait.
 
 ---
 
@@ -33,7 +33,7 @@ If a future request conflicts with this agreement, follow this file and say so.
 | next | The unit to start when we say “go.” |
 | done | Shipped and verified. |
 
-**Current next unit:** [1.10 Machines by kind](#110-machines-by-kind-next-ready) — waiting for agreement, not started.
+**Current next unit:** [1.11 Format rates](#111-format-rates-next-ready) — waiting for agreement, not started.
 
 ---
 
@@ -55,7 +55,7 @@ If a future request conflicts with this agreement, follow this file and say so.
 
 ## Where we are
 
-Living product is `app/`: hardcoded red science 1/s shows a nested tree and a flat totals list. Machine-kind strip is still empty. `prototypes/` stays isolated.
+Living product is `app/`: hardcoded red 1/s shows tree, totals by item, and machines by kind. Numbers are raw JS floats. `prototypes/` stays isolated.
 
 That nested recipe is the thing the PRD says will not survive oil, solid fuel, or planets. Catalog work that adds more items in the old shape is borrowing time.
 
@@ -175,13 +175,19 @@ Flat `#totals` list from `order` + `totals`. Iron plate appears once at 2/s. Sam
 
 ---
 
-#### 1.10 Machines by kind — **next, ready** (waiting for agreement)
+#### 1.10 Machines by kind — **done**
 
-The Machines strip: total buildings **per machine kind** (all assemblers, all furnaces), not per item.
+`byKind` sums per-item `machines` that share `recipe.machine`. Ore (`null`) is skipped. Red 1/s steel: furnaces = copper plate + iron plate (**4.8**). Assemblers = pack + gear.
 
-**This unit (~40 lines):** `calculate()` also returns `byKind` — Map of `assembler` / `furnace` → summed count from `machines` (skip `null`). `#summary` under Machines: one line per kind. Test: red 1/s steel → furnaces = copper plates + iron plates. No CSS, no per-item machine column.
+---
 
-**Not this unit:** craft menu, rate field, styling, grouping totals by category.
+#### 1.11 Format rates — **next, ready** (waiting for agreement)
+
+The page shows `4.800000000000001` and `7.333333333333334`. Calc stays exact; **display** truncates (PRD: 6 decimal places, no rounding, no ceiling).
+
+**This unit (~25 lines):** `formatRate(n)` in `ui.js` (or a tiny `format.js`). Use it on tree, totals, and byKind. `null` → skip or em dash. A small test: `3.2` stays `3.2`, `4.800000000000001` becomes `4.8`. No rate field, no CSS.
+
+**Not this unit:** product picker, setup toggles, fold.
 
 ---
 
@@ -368,4 +374,5 @@ Stay static HTML/CSS/JS, no bundler, until something in Track A actually needs a
 | 2026-09-09 | 1.6 done: furnace speeds; 2 plate/s → 3.2 steel furnaces. |
 | 2026-09-09 | 1.7 done: calculate() wires machines from totals. |
 | 2026-09-09 | 1.8 done: nested tree on the page (red 1/s). |
-| 2026-09-09 | 1.9 done: flat totals list. Next: 1.10 machines by kind (waiting). |
+| 2026-09-09 | 1.9 done: flat totals list. |
+| 2026-09-09 | 1.10 done: byKind strip (assembler / furnace). Next: 1.11 format rates (waiting). |

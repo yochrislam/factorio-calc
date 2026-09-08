@@ -31,3 +31,11 @@ if (totalsRoot) {
     .join("");
   totalsRoot.innerHTML = `<ul>${rows}</ul>`;
 }
+
+const summaryRoot = document.getElementById("summary");
+if (summaryRoot) {
+  const rows = [...result.byKind.entries()]
+    .map(([kind, count]) => `<li>${kind} ${count}</li>`)
+    .join("");
+  summaryRoot.innerHTML = `<ul>${rows}</ul>`;
+}

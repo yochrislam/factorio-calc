@@ -81,14 +81,20 @@ export function rollupRates(node, totals = new Map(), order = []) {
 
 /**
  * One call for the UI: tree (per line), totals (summed by item),
- * and machines from those totals (not from a single tree node).
+ * machines from those totals, and byKind (those machines summed
+ * by recipe.machine: assembler, furnace, …).
  */
 export function calculate(itemId, ratePerSec, settings) {
   const tree = buildTree(itemId, ratePerSec);
   const { totals, order } = rollupRates(tree);
   const machines = new Map();
+  const byKind = new Map();
   for (const id of order) {
-    machines.set(id, machinesNeeded(id, totals.get(id), settings));
+    const count = machinesNeeded(id, totals.get(id), settings);
+    machines.set(id, count);
+    const kind = ITEMS[id] && ITEMS[id].recipe && ITEMS[id].recipe.machine;
+    if (count == null || !kind) continue;
+    byKind.set(kind, (byKind.get(kind) || 0) + count);
   }
-  return { tree, totals, order, machines };
+  return { tree, totals, order, machines, byKind };
 }
