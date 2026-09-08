@@ -39,3 +39,24 @@ export function machinesNeeded(itemId, ratePerSec, settings) {
   if (throughput <= 0) return null;
   return ratePerSec / throughput;
 }
+
+/**
+ * Ingredient tree for a target item rate (items per second).
+ *
+ * One craft produces `recipe.output` of the parent, so crafts/sec =
+ * parentRate / output. Each ingredient is then needed at
+ * crafts/sec × amount. Recurse until an item has no ingredients (ore).
+ */
+export function buildTree(itemId, rate) {
+  const item = ITEMS[itemId];
+  const node = { id: itemId, rate, children: [] };
+  const recipe = item && item.recipe;
+  if (!recipe || !recipe.ingredients || recipe.ingredients.length === 0) {
+    return node;
+  }
+  const craftsPerSec = rate / recipe.output;
+  for (const ingredient of recipe.ingredients) {
+    node.children.push(buildTree(ingredient.item, craftsPerSec * ingredient.amount));
+  }
+  return node;
+}

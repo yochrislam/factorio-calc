@@ -2,7 +2,7 @@
 
 Source of truth for *how* we work and *what* we build next. Product requirements stay in [`docs/prd.md`](../prd.md). This file is the living breakdown of that PRD into units small enough to follow, not a second PRD.
 
-**Status:** Unit 1.3 is done. Next is [1.4 Recipe tree](#14-recipe-tree-next-ready) — explain and wait.
+**Status:** Unit 1.4 is done. Next is [1.5 Totals rollup](#15-totals-rollup-next-ready) — explain and wait.
 
 ---
 
@@ -33,7 +33,7 @@ If a future request conflicts with this agreement, follow this file and say so.
 | next | The unit to start when we say “go.” |
 | done | Shipped and verified. |
 
-**Current next unit:** [1.4 Recipe tree](#14-recipe-tree-next-ready) — waiting for agreement, not started.
+**Current next unit:** [1.5 Totals rollup](#15-totals-rollup-next-ready) — waiting for agreement, not started.
 
 ---
 
@@ -55,7 +55,7 @@ If a future request conflicts with this agreement, follow this file and say so.
 
 ## Where we are
 
-Living product is `app/`: empty UI plus a from-scratch calc that can count assemblers for two science packs. `prototypes/` is isolated (not imported by `app/` or Pages).
+Living product is `app/`: empty UI, assembler counts for yellow/purple, and a red-science ingredient tree. `prototypes/` stays isolated.
 
 That nested recipe is the thing the PRD says will not survive oil, solid fuel, or planets. Catalog work that adds more items in the old shape is borrowing time.
 
@@ -139,13 +139,19 @@ UI still does not call calc. No ingredient tree yet.
 
 ---
 
-#### 1.4 Recipe tree — **next, ready** (waiting for agreement)
+#### 1.4 Recipe tree — **done**
 
-From scratch in `calc.js`: given an item and a rate, walk ingredients and build a nested `{ id, rate, children }` tree. That requires adding `ingredients` on the two packs **and** the items they list — which pulls a large graph if we use real yellow science.
+`buildTree` plus a handmade red-science chain. At 1 pack/s: gear needs 2 iron plate/s (2 plates per gear), so 2 iron ore/s.
 
-**This unit stays small:** pick **one short chain** authored in `data.js` (e.g. iron plate ← iron ore, or red science ← gear + plate) and implement `buildTree` only. No totals rollup, no UI.
+---
 
-**Not this unit:** copying `recipes.js`, oil, CSS, wiring the tree into HTML.
+#### 1.5 Totals rollup — **next, ready** (waiting for agreement)
+
+Walk the tree and **sum rates by item** (`Map` of id → total rate, plus a stable order). The tree is local; totals are factory-wide. Iron plate can appear once in this chain; later graphs will have the same item on several branches.
+
+**This unit:** `rollupRates(tree)` in `calc.js` + a test on the red tree (iron plate total = 2/s at 1 red/s). No UI, no machine strip.
+
+**Not this unit:** `calculate()` wrapper, drawing totals, CSS.
 
 ---
 
@@ -326,4 +332,5 @@ Stay static HTML/CSS/JS, no bundler, until something in Track A actually needs a
 | 2026-09-08 | 1.1 done. Ratios are exact 21 and 42. |
 | 2026-09-08 | 1.2 done. App shell only. Root `"type": "module"` would break tests; scoped it to `app/package.json`. |
 | 2026-09-08 | 1.2b GitHub Pages: workflow publishes `app/` only. Prototypes isolated. |
-| 2026-09-08 | 1.3 done from scratch: throughput / machinesNeeded + two packs. App tests 21 and 42. Next: 1.4 tree (waiting). |
+| 2026-09-08 | 1.3 done from scratch: throughput / machinesNeeded + two packs. |
+| 2026-09-08 | 1.4 done: buildTree + red science chain. Next: 1.5 rollup (waiting). |
