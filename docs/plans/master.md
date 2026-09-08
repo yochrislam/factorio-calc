@@ -2,7 +2,7 @@
 
 Source of truth for *how* we work and *what* we build next. Product requirements stay in [`docs/prd.md`](../prd.md). This file is the living breakdown of that PRD into units small enough to follow, not a second PRD.
 
-**Status:** Unit 1.7 is done. Next is [1.8 Draw the tree](#18-draw-the-tree-next-ready) — explain and wait.
+**Status:** Unit 1.8 is done. Next is [1.9 Draw totals](#19-draw-totals-next-ready) — explain and wait.
 
 ---
 
@@ -33,7 +33,7 @@ If a future request conflicts with this agreement, follow this file and say so.
 | next | The unit to start when we say “go.” |
 | done | Shipped and verified. |
 
-**Current next unit:** [1.8 Draw the tree](#18-draw-the-tree-next-ready) — waiting for agreement, not started.
+**Current next unit:** [1.9 Draw totals](#19-draw-totals-next-ready) — waiting for agreement, not started.
 
 ---
 
@@ -55,7 +55,7 @@ If a future request conflicts with this agreement, follow this file and say so.
 
 ## Where we are
 
-Living product is `app/`: empty UI plus `calculate()` (tree, rollup, machines from totals) for red science. `prototypes/` stays isolated.
+Living product is `app/`: hardcoded red science 1/s draws a nested recipe tree. Totals and machine-kind strip are still empty. `prototypes/` stays isolated.
 
 That nested recipe is the thing the PRD says will not survive oil, solid fuel, or planets. Catalog work that adds more items in the old shape is borrowing time.
 
@@ -163,13 +163,19 @@ Furnace speeds in `MACHINES` (stone 1, steel/electric 2). `getMachineSpeed` read
 
 ---
 
-#### 1.8 Draw the tree — **next, ready** (waiting for agreement)
+#### 1.8 Draw the tree — **done**
 
-First time the page shows calc output. Hardcoded: red science, 1/s, AM2 + steel furnace.
+Hardcoded red 1/s, AM2 + steel. Nested `<ul>` of name + rate in `#tree`. Gear line shows iron plate **2/s**. No CSS, no fold, no picker.
 
-**This unit (~40 lines):** give the Recipe tree panel a `#tree` body. `ui.js` calls `calculate()`, walks `result.tree`, and renders a nested `<ul>` of item name + rate. No CSS, no picker, no totals column, no fold.
+---
 
-**Not this unit:** craft menu, rate field, machine strip, styling.
+#### 1.9 Draw totals — **next, ready** (waiting for agreement)
+
+The other column: factory-wide rates from `result.order` + `result.totals` (not the tree).
+
+**This unit (~20 lines):** `#totals` on the Totals panel. One `<li>` per item in `order`, name + total rate. Same hardcoded `calculate()` call. No grouping by category, no machine counts, no CSS.
+
+**Not this unit:** machine-kind strip (separate UI), craft menu, styling.
 
 ---
 
@@ -354,4 +360,5 @@ Stay static HTML/CSS/JS, no bundler, until something in Track A actually needs a
 | 2026-09-08 | 1.4 done: buildTree + red science chain. |
 | 2026-09-08 | 1.5 done: rollupRates by item. |
 | 2026-09-09 | 1.6 done: furnace speeds; 2 plate/s → 3.2 steel furnaces. |
-| 2026-09-09 | 1.7 done: calculate() wires machines from totals. Next: 1.8 draw the tree (waiting). |
+| 2026-09-09 | 1.7 done: calculate() wires machines from totals. |
+| 2026-09-09 | 1.8 done: nested tree on the page (red 1/s). Next: 1.9 totals column (waiting). |
