@@ -115,6 +115,17 @@ Shipped. ~85 lines. `app/` is the product home; prototype not edited.
 
 ---
 
+#### 1.2b GitHub Pages — **done**
+
+Publish **only** `app/`. `prototypes/` is not on the site (no copies, no symlinks, no workflow paths into it). `docs/` stays product docs, not the Pages source.
+
+- `.github/workflows/pages.yml` — on push to `main`, upload `app` as the Pages artifact (`include-hidden-files` so `.nojekyll` is included).
+- `app/.nojekyll` — skip Jekyll if anyone ever switches to branch deploy.
+
+Repo Settings → Pages → Source must be **GitHub Actions** (not “Deploy from a branch” / `/docs`).
+
+---
+
 #### 1.3 Calc module — **next, ready** (waiting for agreement)
 
 Port the engine only, still no UI wiring and no full catalog.
@@ -283,17 +294,18 @@ Resolve for real in the unit that first cares. Until then, use these so planning
 ## Suggested repo shape (not created yet)
 
 ```
-app/                  # living product (after 1.2; not created yet)
-prototypes/v0.1/      # frozen spike (do not feature in here)
+app/                         # living product; this is the GitHub Pages site
+.github/workflows/pages.yml  # deploys app/ only
+prototypes/v0.1/             # frozen spike; never imported by app/ or Pages
 tests/golden-ratios.js
 scripts/test.sh
 scripts/serve-prototype.sh
-scripts/serve-app.sh  # after 1.2
+scripts/serve-app.sh
 docs/prd.md
 docs/plans/master.md
 ```
 
-Stay static HTML/CSS/JS, no bundler, until something in Track A actually needs a build. Catalog growth is more files of data, not a framework.
+Stay static HTML/CSS/JS, no bundler, until something in Track A actually needs a build. Catalog growth is more files of data, not a framework. The published site must stay self-contained in `app/`.
 
 ---
 
@@ -303,4 +315,5 @@ Stay static HTML/CSS/JS, no bundler, until something in Track A actually needs a
 | --- | --- |
 | 2026-09-08 | Plan created from PRD. |
 | 2026-09-08 | 1.1 done. Ratios are exact 21 and 42. |
-| 2026-09-08 | 1.2 done. App shell only. Root `"type": "module"` would break tests; scoped it to `app/package.json`. Next: 1.3 calc module (waiting). |
+| 2026-09-08 | 1.2 done. App shell only. Root `"type": "module"` would break tests; scoped it to `app/package.json`. |
+| 2026-09-08 | 1.2b GitHub Pages: workflow publishes `app/` only. Prototypes isolated. |
